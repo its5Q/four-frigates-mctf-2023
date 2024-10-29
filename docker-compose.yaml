@@ -1,0 +1,28 @@
+version: '3'
+services:
+  four-frigates:
+    container_name: mctf-joy-four-frigates
+    restart: always
+    build:
+      context: ./
+      args:
+      - FLAG=${FLAG}
+      - TASK_NAME=${TASK_NAME}
+    ports:
+      - '9006:1337'
+    environment:
+      - FLAG=${FLAG}
+      - TASK_NAME=${TASK_NAME}
+    healthcheck:
+      test: ["CMD", "/bin/bash", "/usr/src/app/healthcheck.sh"]
+      interval: 1m
+      timeout: 10s
+      retries: 1
+    deploy:
+      resources:
+        limits:
+          cpus: "0.25"
+          memory: "256M"
+        reservations:
+          cpus: "0.1"
+          memory: "128M"
